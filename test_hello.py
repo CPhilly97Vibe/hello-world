@@ -1,10 +1,18 @@
-import subprocess
+import unittest
 
-def test_hello_world():
-    result = subprocess.run(["python3", "hello.py"], capture_output=True, text=True)
-    assert result.returncode == 0
-    assert "Hello, world!" in result.stdout
+from hello import build_greeting
+
+
+class BuildGreetingTests(unittest.TestCase):
+    def test_build_greeting_with_name(self):
+        self.assertEqual(build_greeting("Christian"), "Hello, Christian!")
+
+    def test_build_greeting_strips_whitespace(self):
+        self.assertEqual(build_greeting("  Ada Lovelace  "), "Hello, Ada Lovelace!")
+
+    def test_build_greeting_defaults_when_empty(self):
+        self.assertEqual(build_greeting("   "), "Hello, world!")
+
 
 if __name__ == "__main__":
-    test_hello_world()
-    print("✅ All tests passed!")
+    unittest.main()
